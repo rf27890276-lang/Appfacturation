@@ -1,0 +1,29 @@
+name: Build IPA
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          brew install cython
+          pip install buildozer kivy
+
+      - name: Build IPA with Buildozer
+        run: |
+          # Esto le dice a GitHub que prepare el archivo para iOS
+          buildozer ios debug
+        
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: App-Facturacion-IPA
+          path: bin/*.ipa
