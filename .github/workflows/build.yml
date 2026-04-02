@@ -1,0 +1,23 @@
+name: Build_iOS
+on: [push]
+jobs:
+  build:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v3
+      - name: Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Herramientas
+        run: |
+          pip install --upgrade pip
+          pip install Cython==0.29.33 buildozer kivy kivy-ios
+      - name: Cocinar
+        run: |
+          buildozer ios debug
+      - name: Resultado
+        uses: actions/upload-artifact@v3
+        with:
+          name: App-Facturacion
+          path: bin/*.ipa
