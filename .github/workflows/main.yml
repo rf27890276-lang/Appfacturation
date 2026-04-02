@@ -1,0 +1,29 @@
+name: Build_iOS
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Tools
+        run: |
+          pip install --user --upgrade pip
+          pip install --user Cython==0.29.33 buildozer kivy kivy-ios
+
+      - name: Build IPA
+        run: |
+          # Activamos el motor de iPhone
+          ~/.local/bin/buildozer ios debug
+        
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: App-Mao-Tech
+          path: bin/*.ipa
