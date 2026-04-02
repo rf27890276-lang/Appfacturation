@@ -30,4 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: App-Mao-Tech
-          path: bin/*.ipa
+          path: bin/*.- name: ¿Donde estan mis archivos?
+        run: |
+          pwd
+          ls -Ripa
